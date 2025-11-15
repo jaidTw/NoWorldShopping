@@ -22,5 +22,33 @@
   "action": {
     "default_popup": "popup.html",
     "default_title": "No World Shopping"
+  },
+  "declarative_net_request": {
+    "rule_resources": [
+      {
+        "id": "ruleset_1",
+        "enabled": true,
+        "rules": [
+          {
+            "id": 1,
+            "priority": 1,
+            "action": { "type": "block" },
+            "condition": {
+              "urlFilter": "*://worldshopping.jp/*",
+              "resourceTypes": ["main_frame", "sub_frame", "stylesheet", "script", "image", "font", "object", "xmlhttprequest", "ping", "csp_report", "media", "websocket", "other"]
+            }
+          },
+          {
+            "id": 2,
+            "priority": 1,
+            "action": { "type": "block" },
+            "condition": {
+              "urlFilter": "*://*.worldshopping.jp/*",
+              "resourceTypes": ["main_frame", "sub_frame", "stylesheet", "script", "image", "font", "object", "xmlhttprequest", "ping", "csp_report", "media", "websocket", "other"]
+            }
+          }
+        ]
+      }
+    ]
   }
 }
