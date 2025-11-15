@@ -1,18 +1,42 @@
 // Background script for No World Shopping extension
+const BLOCKING_RULES = [
+    {
+        id: 1,
+        priority: 1,
+        action: { type: "block" },
+        condition: {
+            urlFilter: "*://worldshopping.jp/*",
+            resourceTypes: ["main_frame", "sub_frame", "stylesheet", "script", "image", "font", "object", "xmlhttprequest", "ping", "csp_report", "media", "websocket", "other"]
+        }
+    },
+    {
+        id: 2,
+        priority: 1,
+        action: { type: "block" },
+        condition: {
+            urlFilter: "*://*.worldshopping.jp/*",
+            resourceTypes: ["main_frame", "sub_frame", "stylesheet", "script", "image", "font", "object", "xmlhttprequest", "ping", "csp_report", "media", "websocket", "other"]
+        }
+    }
+];
+
 chrome.runtime.onInstalled.addListener(() => {
-    // Set default enabled state
+    // Set default enabled state and enable blocking
     chrome.storage.sync.set({ enabled: true });
+    enableBlocking();
 });
 
 function enableBlocking() {
-    chrome.declarativeNetRequest.updateEnabledRulesets({
-        enableRulesetIds: ["ruleset_1"]
+    chrome.declarativeNetRequest.updateDynamicRules({
+        removeRuleIds: [1, 2],
+        addRules: BLOCKING_RULES
     });
 }
 
 function disableBlocking() {
-    chrome.declarativeNetRequest.updateEnabledRulesets({
-        disableRulesetIds: ["ruleset_1"]
+    chrome.declarativeNetRequest.updateDynamicRules({
+        removeRuleIds: [1, 2],
+        addRules: []
     });
 }
 
